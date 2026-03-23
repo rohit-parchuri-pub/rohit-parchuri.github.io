@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talk to Me — Rohit Parchuri</title>
+  <meta name="description" content="Book a meeting with Rohit Parchuri.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Background Effects -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--1"></div>
+  <div class="bg-glow bg-glow--2"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">rohit<span>.sec</span></a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="talk-to-me.html" class="active">Talk to me</a></li>
+        <li><a href="podcasts.html">Podcasts</a></li>
+        <li><a href="media.html">Media</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <button class="nav__menu-btn" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Calendly Section -->
+  <section class="calendly-section" style="padding-top: 120px; padding-bottom: 60px;">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h1 class="section-title">Let's <span
+            style="background: linear-gradient(135deg, #a78bfa, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Connect</span>
+        </h1>
+        <p class="section-subtitle">Book a time with me using the calendar below.</p>
+      </div>
+      <!-- Calendly inline widget begin -->
+      <div class="calendly-inline-widget" data-url="https://calendly.com/rohitpar/30min-checkin"
+        style="min-width:320px;height:700px;"></div>
+      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      <!-- Calendly inline widget end -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__text">&copy; 2026 Rohit Parchuri. All rights reserved.</p>
+      <div class="footer__links">
+        <a href="index.html">Home</a>
+        <a href="talk-to-me.html">Talk to me</a>
+        <a href="podcasts.html">Podcasts</a>
+        <a href="media.html">Media</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
