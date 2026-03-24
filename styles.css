@@ -579,6 +579,187 @@ section {
   color: var(--text-secondary);
 }
 
+/* --- Professional Experience Timeline (Index) --- */
+.exp-timeline {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.exp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), rgba(99,102,241,0.1));
+  border-radius: 1px;
+}
+
+.exp-item {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.exp-item:last-child {
+  margin-bottom: 0;
+}
+
+.exp-item__marker {
+  position: absolute;
+  left: -2.9rem;
+  top: 1.4rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg-primary);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+  z-index: 1;
+  transition: box-shadow var(--transition);
+}
+
+.exp-item:hover .exp-item__marker {
+  box-shadow: 0 0 0 6px rgba(99,102,241,0.15);
+}
+
+.exp-item__content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.exp-item__content::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.exp-item:hover .exp-item__content {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+  transform: translateX(4px);
+}
+
+.exp-item:hover .exp-item__content::before {
+  opacity: 1;
+}
+
+.exp-item__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.exp-item__company {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.exp-item__location {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+  font-style: italic;
+}
+
+.exp-item__roles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.exp-item__role {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.exp-item__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
+.exp-item__role--secondary .exp-item__title {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.exp-item__date {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  padding: 0.15rem 0.6rem;
+  border-radius: 100px;
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.exp-item__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.exp-item__desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.exp-item__achievements {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.exp-item__achievements li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding-left: 1.25rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.exp-item__achievements li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.7rem;
+  top: 0.15rem;
+}
+
 /* --- Podcast Page --- */
 .podcast-card {
   display: flex;
