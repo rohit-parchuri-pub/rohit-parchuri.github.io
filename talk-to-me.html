@@ -36,20 +36,60 @@
     </div>
   </nav>
 
-  <!-- Calendly Section -->
+  <!-- Calendar Booking Section -->
   <section class="calendly-section" style="padding-top: 120px; padding-bottom: 60px;">
     <div class="container">
       <div class="section-header fade-in">
         <h1 class="section-title">Let's <span
             style="background: linear-gradient(135deg, #a78bfa, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Connect</span>
         </h1>
-        <p class="section-subtitle">Book a time with me using the calendar below.</p>
+        <p class="section-subtitle">Choose a quick 15-minute chat or a deeper 30-minute conversation.</p>
       </div>
-      <!-- Calendly inline widget begin -->
-      <div class="calendly-inline-widget" data-url="https://calendly.com/rohitpar/30min-checkin"
-        style="min-width:320px;height:700px;"></div>
-      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-      <!-- Calendly inline widget end -->
+
+      <!-- 15 Minute Catchup -->
+      <div class="fade-in" style="margin-bottom: 60px;">
+        <h2 style="color: #e2e8f0; font-size: 1.5rem; margin-bottom: 8px; text-align: center;">
+          <span style="background: linear-gradient(135deg, #a78bfa, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">15-Minute</span> Catchup
+        </h2>
+        <p style="color: #94a3b8; text-align: center; margin-bottom: 24px; font-size: 0.95rem;">For quick introductions, brief check-ins, or follow-up chats.</p>
+        <div class="cal-embed" data-cal-link="rohit-parchuri/15min" data-cal-config='{"layout":"month_view","overlayCalendar":true}'
+          style="min-width:320px;height:700px;overflow:auto;"></div>
+      </div>
+
+      <!-- 30 Minute Catchup -->
+      <div class="fade-in">
+        <h2 style="color: #e2e8f0; font-size: 1.5rem; margin-bottom: 8px; text-align: center;">
+          <span style="background: linear-gradient(135deg, #3b82f6, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">30-Minute</span> Catchup
+        </h2>
+        <p style="color: #94a3b8; text-align: center; margin-bottom: 24px; font-size: 0.95rem;">For in-depth discussions, strategy sessions, or detailed conversations.</p>
+        <div class="cal-embed" data-cal-link="rohit-parchuri/30min" data-cal-config='{"layout":"month_view","overlayCalendar":true}'
+          style="min-width:320px;height:700px;overflow:auto;"></div>
+      </div>
+
+      <!-- Cal.com embed script -->
+      <script type="text/javascript">
+        (function (C, A, L) {
+          let p = function (a, ar) { a.q.push(ar); };
+          let d = C.document;
+          C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); };
+        })(window, "https://app.cal.com/embed/embed.js", "init");
+
+        Cal("init", "30min", { origin: "https://cal.com" });
+        Cal.ns["30min"]("inline", {
+          elementOrSelector: '[data-cal-link="rohit-parchuri/30min"]',
+          calLink: "rohit-parchuri/30min?overlayCalendar=true",
+          layout: "month_view"
+        });
+        Cal.ns["30min"]("ui", { "styles": { "branding": { "brandColor": "#3b82f6" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+
+        Cal("init", "15min", { origin: "https://cal.com" });
+        Cal.ns["15min"]("inline", {
+          elementOrSelector: '[data-cal-link="rohit-parchuri/15min"]',
+          calLink: "rohit-parchuri/15min?overlayCalendar=true",
+          layout: "month_view"
+        });
+        Cal.ns["15min"]("ui", { "styles": { "branding": { "brandColor": "#a78bfa" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+      </script>
     </div>
   </section>
 
