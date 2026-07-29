@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#22313f">
+<title>Aug 3–7 · Black Hat Las Vegas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stock:#e4e6e2;      /* badge cardstock */
+  --stock-2:#eceee9;
+  --ink:#191d21;
+  --slate:#22313f;
+  --slate-mid:#5c6b76;
+  --hair:#c3c8c1;
+  --amber:#a86e0d;      /* decide */
+  --amber-bg:#f2e6cd;
+  --rose:#98374d;       /* unanswered */
+  --teal:#25675f;       /* confirmed */
+  --disp:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--stock);color:var(--ink);font-family:var(--body);
+  font-size:15px;line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:520px;margin:0 auto;padding:0 0 64px}
+
+/* ---------- masthead ---------- */
+.mast{background:var(--slate);color:var(--stock-2);padding:22px 18px 18px}
+.eyebrow{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:#9fb0ba;margin:0 0 10px
+}
+.mast h1{
+  font-family:var(--disp);font-weight:800;font-size:34px;line-height:.95;
+  letter-spacing:-.02em;margin:0 0 4px;text-transform:uppercase
+}
+.mast h1 em{font-style:normal;color:#8ba9b5}
+.mast .sub{font-size:13px;color:#b9c7ce;margin:8px 0 0}
+.mast .sub b{color:var(--stock-2);font-weight:600}
+
+/* ---------- watch-outs ---------- */
+.flags{border-bottom:1px solid var(--hair);background:var(--amber-bg)}
+.flags summary{
+  cursor:pointer;list-style:none;padding:12px 18px;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--amber);
+  display:flex;align-items:center;gap:8px
+}
+.flags summary::-webkit-details-marker{display:none}
+.flags summary::after{content:"＋";margin-left:auto;font-size:14px}
+.flags[open] summary::after{content:"−"}
+.flags ol{margin:0;padding:0 18px 16px 38px;font-size:13.5px;color:#4a3c1e}
+.flags li{margin-bottom:9px}
+.flags li:last-child{margin-bottom:0}
+.flags b{font-weight:600}
+
+/* ---------- day tabs ---------- */
+.tabs{
+  position:sticky;top:0;z-index:20;display:flex;
+  background:var(--stock);border-bottom:1px solid var(--hair);
+}
+.tab{
+  flex:1;appearance:none;border:0;background:none;cursor:pointer;
+  padding:11px 2px 9px;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--slate-mid);
+  border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s
+}
+.tab .d{display:block;font-family:var(--disp);font-size:17px;font-weight:700;letter-spacing:-.01em;margin-top:1px}
+.tab[aria-selected="true"]{color:var(--slate);border-bottom-color:var(--slate)}
+.tab .pip{
+  display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--amber);vertical-align:2px;margin-left:3px
+}
+.tab:focus-visible{outline:2px solid var(--slate);outline-offset:-3px}
+
+/* ---------- day panel ---------- */
+.day{display:none;padding:4px 0 0}
+.day.on{display:block}
+.dayhead{padding:16px 18px 6px;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.dayhead h2{font-family:var(--disp);font-weight:700;font-size:19px;margin:0;letter-spacing:-.01em}
+.dayhead .cnt{font-family:var(--mono);font-size:11px;color:var(--slate-mid);letter-spacing:.04em}
+.dayhead .note{
+  width:100%;font-size:12.5px;color:var(--amber);font-weight:500;margin-top:2px
+}
+
+/* ---------- events ---------- */
+.blocks{padding:6px 0 18px}
+.clash{
+  margin:10px 12px;border-left:3px solid var(--amber);
+  background:rgba(242,230,205,.5);border-radius:0 6px 6px 0
+}
+.clash .clabel{
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--amber);padding:9px 14px 2px
+}
+.clash .cwhy{font-size:12.5px;color:#5a4a26;padding:0 14px 6px}
+
+.ev{
+  display:grid;grid-template-columns:62px 1fr;gap:10px;
+  padding:11px 18px;border-top:1px solid var(--hair);
+  align-items:start;position:relative
+}
+.clash .ev{padding-left:14px;padding-right:14px;border-top:1px solid rgba(195,200,193,.7)}
+.clash .ev:first-of-type{border-top:0}
+.ev.solo:first-child{border-top:0}
+.ev.now{background:#d7ddd6}
+.ev.now::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)
+}
+
+.t{font-family:var(--mono);font-size:12.5px;font-weight:500;line-height:1.3;padding-top:1px}
+.t .t2{display:block;color:var(--slate-mid);font-size:11px}
+.b .ttl{font-family:var(--disp);font-weight:500;font-size:14.5px;line-height:1.25;letter-spacing:-.005em;margin:0}
+.b .ttl a{color:inherit;text-decoration:none;border-bottom:1px solid var(--hair)}
+.venue{display:block;font-size:12.5px;color:var(--slate-mid);margin-top:3px;text-decoration:none}
+.venue u{text-decoration:none;border-bottom:1px dotted var(--slate-mid)}
+.join{
+  display:inline-block;margin-top:6px;font-family:var(--mono);font-size:10.5px;
+  font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--stock-2);background:var(--slate);padding:4px 9px;border-radius:3px;text-decoration:none
+}
+.chips{margin-top:5px;display:flex;gap:5px;flex-wrap:wrap}
+.chip{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;padding:2px 6px;border-radius:2px;border:1px solid
+}
+.chip.need{color:var(--rose);border-color:var(--rose)}
+.chip.tent{color:var(--amber);border-color:var(--amber)}
+.chip.dupe{color:var(--slate-mid);border-color:var(--hair)}
+.chip.work{color:var(--teal);border-color:var(--teal)}
+.chip.ppl{color:var(--slate-mid);border-color:var(--hair)}
+
+/* ---------- stay bar ---------- */
+.stay{
+  display:flex;gap:10px;align-items:center;margin:12px 12px 2px;padding:10px 12px;
+  background:var(--slate);color:var(--stock-2);border-radius:6px;text-decoration:none
+}
+.stay .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:#8ba9b5}
+.stay .v{font-family:var(--disp);font-weight:600;font-size:14px}
+.stay .arw{margin-left:auto;color:#8ba9b5;font-size:16px}
+
+/* ---------- footer ---------- */
+.foot{
+  padding:20px 18px;border-top:1px solid var(--hair);
+  font-size:12px;color:var(--slate-mid);line-height:1.5
+}
+.foot b{color:var(--ink);font-weight:600}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- ===== PIN GATE ===== -->
+<style>
+  html.bh-locked, html.bh-locked body{overflow:hidden}
+  html.bh-locked #bh-content{filter:blur(9px);pointer-events:none;user-select:none}
+  #bh-gate{position:fixed;inset:0;z-index:9999;display:none;align-items:center;
+    justify-content:center;background:#22313f;color:#eceee9;
+    font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+  html.bh-locked #bh-gate{display:flex}
+  .bh-card{width:min(340px,88vw);text-align:center;padding:34px 26px 30px}
+  .bh-card .lock{font-size:30px;margin-bottom:12px}
+  .bh-card h2{font-family:"Archivo",Arial,sans-serif;font-weight:800;
+    text-transform:uppercase;letter-spacing:.02em;font-size:22px;margin:0 0 4px}
+  .bh-card p{font-size:12.5px;color:#9fb0ba;margin:0 0 22px;line-height:1.5}
+  #bh-pin{width:100%;font-family:inherit;font-size:24px;letter-spacing:.5em;
+    text-align:center;padding:12px 10px;border:1px solid #5c6b76;border-radius:8px;
+    background:#1a252f;color:#eceee9;outline:none}
+  #bh-pin:focus{border-color:#8ba9b5}
+  #bh-go{margin-top:14px;width:100%;padding:12px;border:0;border-radius:8px;
+    cursor:pointer;font-family:inherit;font-weight:600;font-size:13px;
+    letter-spacing:.08em;text-transform:uppercase;background:#8ba9b5;color:#12181d}
+  #bh-go:hover{background:#a2bcc6}
+  #bh-err{min-height:18px;margin-top:12px;font-size:12px;color:#e08a9b}
+  .bh-exp{margin-top:18px;font-size:10.5px;color:#5c6b76;letter-spacing:.06em}
+</style>
+<div id="bh-gate" role="dialog" aria-modal="true" aria-label="PIN required">
+  <div class="bh-card">
+    <div class="lock">🔒</div>
+    <h2>Protected</h2>
+    <p>Enter the access PIN to view the Black Hat itinerary.</p>
+    <input id="bh-pin" type="password" inputmode="numeric" autocomplete="off"
+      maxlength="12" placeholder="••••" aria-label="Access PIN">
+    <button id="bh-go" type="button">Unlock</button>
+    <div id="bh-err" aria-live="polite"></div>
+    <div class="bh-exp">Access expires 8 hours after unlock</div>
+  </div>
+</div>
+<script>
+(function(){
+  var HASH="fba075b9d90ebe0109eea40965e3268e6fc6f55ca4285e282c8ab8ef1232f545"; // sha-256("9177")
+  var TTL=8*60*60*1000, KEY="bh_auth_v1", root=document.documentElement;
+  function valid(){try{var t=parseInt(localStorage.getItem(KEY)||"0",10);
+    return t>0 && (Date.now()-t)<TTL;}catch(e){return false;}}
+  async function sha(s){var b=await crypto.subtle.digest("SHA-256",
+    new TextEncoder().encode(s));return Array.from(new Uint8Array(b))
+    .map(function(x){return x.toString(16).padStart(2,"0");}).join("");}
+  function unlock(){root.classList.remove("bh-locked");}
+  if(!valid()) root.classList.add("bh-locked"); else unlock();
+  document.addEventListener("DOMContentLoaded",function(){
+    if(valid())return;
+    var pin=document.getElementById("bh-pin"),go=document.getElementById("bh-go"),
+        err=document.getElementById("bh-err");
+    if(pin)pin.focus();
+    async function submit(){
+      var h=await sha((pin.value||"").trim());
+      if(h===HASH){try{localStorage.setItem(KEY,String(Date.now()));}catch(e){}
+        err.textContent="";unlock();}
+      else{err.textContent="Incorrect PIN.";pin.value="";pin.focus();}
+    }
+    go.addEventListener("click",submit);
+    pin.addEventListener("keydown",function(e){if(e.key==="Enter")submit();});
+  });
+})();
+</script>
+<!-- ===== /PIN GATE ===== -->
+<div id="bh-content">
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Itinerary · Las Vegas, NV</p>
+    <h1>Aug 3<em>–</em>7<br>Black Hat<br>Week</h1>
+    <p class="sub">All times <b>Pacific</b> · 38 commitments · <b>10 clashes</b> to resolve</p>
+  </header>
+
+  <details class="flags">
+    <summary>Read this first · 3 things</summary>
+    <ol>
+      <li><b>Times are converted to Pacific.</b> Both calendars exported in Central, so the raw files read 2 hours later than reality. Your phone will show Pacific once you land.</li>
+      <li><b>No flights on either calendar.</b> Nothing booked appears for this trip in or out of LAS — confirm your travel separately.</li>
+      <li><b>Fontainebleau checkout is Friday Aug 7</b>, but you have Yext calls through 13:30 PT that day. Plan a late checkout or take them from the airport.</li>
+    </ol>
+  </details>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="panels"></div>
+
+  <p class="foot">
+    Built from your Personal and Yext calendar exports. Recurring focus blocks, WFH markers
+    and personal reminders were left out; one declined invite (Axari / HiddenLayer weekly, Wed)
+    was dropped. <b>This page contains Zoom join links with embedded passcodes</b> — treat it as
+    sensitive and keep it off shared devices and AirDrop.
+  </p>
+</div>
+</div><!-- /#bh-content -->
+
+<script>
+const DAYS = [
+ {k:"mon", dow:"Mon", dnum:"3", full:"Monday, August 3", stay:{name:"Check in · Fontainebleau Las Vegas", addr:"2777 S Las Vegas Blvd, Las Vegas, NV 89109"},
+  blocks:[
+   {type:"solo",items:[
+     {t:"07:30",t2:"08:00",s:"2026-08-03T07:30:00-07:00",e:"2026-08-03T08:00:00-07:00",
+      ttl:"Security Leadership Weekly", join:"https://yext.zoom.us/j/91981528816?pwd=QzNVRE5CNGhjc3IzTkRVL0FrY2tCZz09", chips:[["work","Yext"]]}]},
+   {type:"clash",label:"Overlap · 4 items",why:"The retreat runs all day; the coffee, the summit and the Josh sync all sit inside it. The summit and Josh's sync also collide at 10:30.",
+    items:[
+     {t:"09:00",t2:"18:00",s:"2026-08-03T09:00:00-07:00",e:"2026-08-03T18:00:00-07:00",
+      ttl:"CISO Retreat", venue:"Wiseguys, Las Vegas Town Square", addr:"6593 S Las Vegas Blvd Suite B222, Las Vegas, NV", chips:[["dupe","Invited twice"]]},
+     {t:"09:00",t2:"10:00",s:"2026-08-03T09:00:00-07:00",e:"2026-08-03T10:00:00-07:00",
+      ttl:"Rohit × James coffee", venue:"Venue still TBD", chips:[["ppl","3 people"]]},
+     {t:"10:00",t2:"12:00",s:"2026-08-03T10:00:00-07:00",e:"2026-08-03T12:00:00-07:00",
+      ttl:"CISO & Security Leaders Summit — U&I Ventures", venue:"House of Blues", addr:"3950 S Las Vegas Blvd, Las Vegas, NV 89119", chips:[["need","No RSVP yet"]]},
+     {t:"10:30",t2:"11:00",s:"2026-08-03T10:30:00-07:00",e:"2026-08-03T11:00:00-07:00",
+      ttl:"Josh / Rohit monthly sync", chips:[["work","Yext"]]}]},
+   {type:"solo",items:[
+     {t:"16:00",t2:"18:00",s:"2026-08-03T16:00:00-07:00",e:"2026-08-03T18:00:00-07:00",
+      ttl:"Black Hat CISO Sanctuary Speakeasy", venue:"1923 Prohibition Bar", addr:"3377 Las Vegas Blvd S #2510M, Las Vegas, NV 89109"}]},
+   {type:"clash",label:"Overlap · evening",why:"You hold two CSides invites with different start times — confirm which is real. The depthfirst dinner lands mid-CSides.",
+    items:[
+     {t:"18:00",t2:"or 19:00",s:"2026-08-03T18:00:00-07:00",e:"2026-08-04T00:00:00-07:00",
+      ttl:"CSides Las Vegas 2026", venue:"1855 E Wigwam Ave, Las Vegas, NV 89123", addr:"1855 E Wigwam Ave, Las Vegas, NV 89123", chips:[["dupe","Two invites, 18:00 & 19:00"]]},
+     {t:"20:30",t2:"22:30",s:"2026-08-03T20:30:00-07:00",e:"2026-08-03T22:30:00-07:00",
+      ttl:"depthfirst CISO Dinner", venue:"Toca Madera", addr:"3720 S Las Vegas Blvd Unit 233, Las Vegas, NV 89158"}]}
+  ]},
+
+ {k:"tue", dow:"Tue", dnum:"4", full:"Tuesday, August 4",
+  blocks:[
+   {type:"clash",label:"Tight",why:"Matt's call starts 30 minutes before breakfast ends — take it from the table or move it.",
+    items:[
+     {t:"07:00",t2:"09:30",s:"2026-08-04T07:00:00-07:00",e:"2026-08-04T09:30:00-07:00",
+      ttl:"Breakfast of Gods — Prime Security", venue:"Border Grill, Mandalay Bay", addr:"3950 S Las Vegas Blvd, Las Vegas, NV 89119"},
+     {t:"09:00",t2:"09:25",s:"2026-08-04T09:00:00-07:00",e:"2026-08-04T09:25:00-07:00",
+      ttl:"Matt ↔ Rohit", join:"https://yext.zoom.us/j/96765649359?pwd=aHdhT3phcE9YeVFBQ3VwYnhFVzJqQT09", chips:[["work","Yext"]]}]},
+   {type:"solo",items:[
+     {t:"09:30",t2:"10:00",s:"2026-08-04T09:30:00-07:00",e:"2026-08-04T10:00:00-07:00",
+      ttl:"Rohit ↔ Sid Trivedi", venue:"Four Seasons — meet in the lobby", addr:"Four Seasons Hotel Las Vegas, 3960 S Las Vegas Blvd"}]},
+   {type:"clash",label:"Pick one · 11:30",why:"Backslash demo and the Yext Technology Senior Leads call are the same half hour. Senior Leads has 9 attendees.",
+    items:[
+     {t:"11:00",t2:"15:00",s:"2026-08-04T11:00:00-07:00",e:"2026-08-04T15:00:00-07:00",
+      ttl:"PBC Connect — Black Hat USA", venue:"Mandalay Bay", addr:"3950 S Las Vegas Blvd, Las Vegas, NV 89119", chips:[["need","No RSVP yet"]]},
+     {t:"11:30",t2:"12:00",s:"2026-08-04T11:30:00-07:00",e:"2026-08-04T12:00:00-07:00",
+      ttl:"Backslash — agentic AI demo", venue:"Backslash suite · 30-min demo"},
+     {t:"11:30",t2:"12:00",s:"2026-08-04T11:30:00-07:00",e:"2026-08-04T12:00:00-07:00",
+      ttl:"Technology Senior Leads", chips:[["work","Yext"],["ppl","9 people"]]}]},
+   {type:"solo",items:[
+     {t:"13:00",t2:"13:30",s:"2026-08-04T13:00:00-07:00",e:"2026-08-04T13:30:00-07:00",
+      ttl:"Yext & Upwind — The Offshore Lounge", chips:[["ppl","4 people"]]}]},
+   {type:"clash",label:"Pick one · late afternoon",why:"Two receptions, near-identical windows, different ends of the Strip.",
+    items:[
+     {t:"16:00",t2:"18:30",s:"2026-08-04T16:00:00-07:00",e:"2026-08-04T18:30:00-07:00",
+      ttl:"Security at Speed", venue:"Las Vegas — exact venue not in the invite"},
+     {t:"16:30",t2:"18:30",s:"2026-08-04T16:30:00-07:00",e:"2026-08-04T18:30:00-07:00",
+      ttl:"Greylock at Black Hat", venue:"Waldorf Astoria, Ballroom (3rd floor)", addr:"3752 S Las Vegas Blvd, Las Vegas, NV 89158"}]},
+   {type:"clash",label:"Pick one · 20:00",why:"Exact same two hours. The Axari dinner has 20 people expecting you; the Sphere show does not.",
+    items:[
+     {t:"20:00",t2:"22:00",s:"2026-08-04T20:00:00-07:00",e:"2026-08-04T22:00:00-07:00",
+      ttl:"Wolfpack Security · Axari dinner", venue:"Carbone Riviera", addr:"3600 S Las Vegas Blvd, Las Vegas, NV 89109", chips:[["ppl","20 people"]]},
+     {t:"20:00",t2:"22:00",s:"2026-08-04T20:00:00-07:00",e:"2026-08-04T22:00:00-07:00",
+      ttl:"The Wizard of Oz at Sphere", venue:"Sphere", addr:"255 Sands Ave, Las Vegas, NV 89169"}]}
+  ]},
+
+ {k:"wed", dow:"Wed", dnum:"5", full:"Wednesday, August 5",
+  blocks:[
+   {type:"solo",items:[
+     {t:"08:00",t2:"10:00",s:"2026-08-05T08:00:00-07:00",e:"2026-08-05T10:00:00-07:00",
+      ttl:"Black Hat Breakfast", venue:"Brasserie B, Caesars Palace", addr:"3570 Las Vegas Blvd S, Las Vegas, NV 89109"}]},
+   {type:"clash",label:"Overlap · midday",why:"Your own House of Blues music note runs long and swallows the brunch tail and the John Wick slot.",
+    items:[
+     {t:"10:30",t2:"12:30",s:"2026-08-05T10:30:00-07:00",e:"2026-08-05T12:30:00-07:00",
+      ttl:"Executive Security Brunch", venue:"House of Blues — Oba Lounge", addr:"3950 S Las Vegas Blvd, Las Vegas, NV 89119", chips:[["need","No RSVP yet"]]},
+     {t:"12:00",t2:"16:15",s:"2026-08-05T12:00:00-07:00",e:"2026-08-05T16:15:00-07:00",
+      ttl:"House of Blues — live music (your own note)", chips:[["dupe","Self-created hold"]]},
+     {t:"13:30",t2:"15:30",s:"2026-08-05T13:30:00-07:00",e:"2026-08-05T15:30:00-07:00",
+      ttl:"Confide — John Wick Experience", venue:"John Wick Experience", addr:"3222 W Desert Inn Rd, Las Vegas, NV 89102", chips:[["dupe","Invited twice"]]}]},
+   {type:"clash",label:"Three F1 events · pick one",why:"Bloom, Glilot and Signal each invited you to a different F1 thing, at three venues, overlapping. The Glilot limo leaves ARIA at 16:30 — that one has a hard pickup.",
+    items:[
+     {t:"15:30",t2:"18:00",s:"2026-08-05T15:30:00-07:00",e:"2026-08-05T18:00:00-07:00",
+      ttl:"F1 Grand Prix Experience · Bloom", venue:"Grand Prix Plaza", addr:"4400 Koval Ln, Las Vegas, NV 89109"},
+     {t:"16:30",t2:"17:30",s:"2026-08-05T16:30:00-07:00",e:"2026-08-05T17:30:00-07:00",
+      ttl:"Limo pickup · Glilot Capital F1", venue:"ARIA Resort & Casino", addr:"3730 S Las Vegas Blvd, Las Vegas, NV 89158"},
+     {t:"17:30",t2:"20:30",s:"2026-08-05T17:30:00-07:00",e:"2026-08-05T20:30:00-07:00",
+      ttl:"F1 Signal Race", venue:"F1 Arcade, The Forum Shops at Caesars", addr:"F1 Arcade, The Forum Shops at Caesars Palace, Las Vegas"}]},
+   {type:"solo",items:[
+     {t:"20:30",t2:"00:00",s:"2026-08-05T20:30:00-07:00",e:"2026-08-06T00:00:00-07:00",
+      ttl:"Dave's Annual Black Hat Night Out", venue:"Delilah", addr:"3131 Las Vegas Blvd S, Las Vegas, NV 89109"}]}
+  ]},
+
+ {k:"thu", dow:"Thu", dnum:"6", full:"Thursday, August 6",
+  blocks:[
+   {type:"solo",items:[
+     {t:"08:30",t2:"10:00",s:"2026-08-06T08:30:00-07:00",e:"2026-08-06T10:00:00-07:00",
+      ttl:"Breakfast · Rohit / Amol (Dash)", venue:"The Henry, The Cosmopolitan", addr:"The Henry, The Cosmopolitan of Las Vegas"}]},
+   {type:"clash",label:"Pick one · 10:30",why:"Your standing 1:1 with Jared sits on top of Warren's Black Hat Connect. Jared repeats weekly; Warren doesn't.",
+    items:[
+     {t:"10:30",t2:"11:00",s:"2026-08-06T10:30:00-07:00",e:"2026-08-06T11:00:00-07:00",
+      ttl:"Warren & Rohit — Black Hat Connect", venue:"Venue TBC"},
+     {t:"10:30",t2:"11:00",s:"2026-08-06T10:30:00-07:00",e:"2026-08-06T11:00:00-07:00",
+      ttl:"Rohit / Jared", chips:[["work","Yext"],["dupe","Recurring 1:1"]]}]},
+   {type:"solo",items:[
+     {t:"11:00",t2:"11:30",s:"2026-08-06T11:00:00-07:00",e:"2026-08-06T11:30:00-07:00",
+      ttl:"Rohit & Chen Nisnkorn", venue:"1923 Prohibition Bar, Mandalay Bay", addr:"1923 Prohibition Bar, Mandalay Bay, Las Vegas", chips:[["ppl","5 people"]]}]},
+   {type:"clash",label:"Overlap · lunch",why:"Jason's 1:1 falls in the last half hour of an 8-person lunch.",
+    items:[
+     {t:"12:00",t2:"13:30",s:"2026-08-06T12:00:00-07:00",e:"2026-08-06T13:30:00-07:00",
+      ttl:"Lunch at Il Fornaio (New York-New York)", venue:"Il Fornaio", addr:"3790 S Las Vegas Blvd, Las Vegas, NV 89109", chips:[["ppl","8 people"]]},
+     {t:"13:00",t2:"13:30",s:"2026-08-06T13:00:00-07:00",e:"2026-08-06T13:30:00-07:00",
+      ttl:"Rohit / Jason", chips:[["work","Yext"],["dupe","Recurring 1:1"]]}]},
+   {type:"solo",items:[
+     {t:"14:00",t2:"14:30",s:"2026-08-06T14:00:00-07:00",e:"2026-08-06T14:30:00-07:00",
+      ttl:"Yext / Mitiga — Black Hat intro", venue:"Mandalay Bay", addr:"3950 S Las Vegas Blvd, Las Vegas, NV 89119", chips:[["ppl","4 people"]]}]}
+  ]},
+
+ {k:"fri", dow:"Fri", dnum:"7", full:"Friday, August 7", stay:{name:"Checkout · Fontainebleau Las Vegas", addr:"2777 S Las Vegas Blvd, Las Vegas, NV 89109"},
+  note:"Checkout day with calls running to 13:30 — arrange a late checkout or a lounge.",
+  blocks:[
+   {type:"solo",items:[
+     {t:"07:00",t2:"07:30",s:"2026-08-07T07:00:00-07:00",e:"2026-08-07T07:30:00-07:00",
+      ttl:"Rohit / Elik Etzion (AlphaDrive Ventures)", chips:[["tent","You're tentative"]]},
+     {t:"08:00",t2:"08:30",s:"2026-08-07T08:00:00-07:00",e:"2026-08-07T08:30:00-07:00",
+      ttl:"Meeting with Ido", chips:[["ppl","2 people"]]},
+     {t:"09:00",t2:"10:00",s:"2026-08-07T09:00:00-07:00",e:"2026-08-07T10:00:00-07:00",
+      ttl:"Vaccine · Kevlar — Security Assurance Team Connect", chips:[["tent","You're tentative"],["ppl","13 people"]]},
+     {t:"13:00",t2:"13:30",s:"2026-08-07T13:00:00-07:00",e:"2026-08-07T13:30:00-07:00",
+      ttl:"Mayur ↔ Rohit", chips:[["work","Yext"]]}]}
+  ]}
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const mapURL = a => "https://maps.google.com/?q=" + encodeURIComponent(a);
+
+function evHTML(it){
+  let h = '<div class="ev" data-s="'+it.s+'" data-e="'+it.e+'">';
+  h += '<div class="t">'+esc(it.t)+'<span class="t2">'+esc(it.t2)+'</span></div><div class="b">';
+  h += '<p class="ttl">'+esc(it.ttl)+'</p>';
+  if(it.venue){
+    h += it.addr
+      ? '<a class="venue" href="'+mapURL(it.addr)+'" target="_blank" rel="noopener"><u>'+esc(it.venue)+'</u> ↗</a>'
+      : '<span class="venue">'+esc(it.venue)+'</span>';
+  }
+  if(it.join) h += '<a class="join" href="'+it.join+'" target="_blank" rel="noopener">Join Zoom</a>';
+  if(it.chips && it.chips.length){
+    h += '<div class="chips">';
+    it.chips.forEach(c => h += '<span class="chip '+c[0]+'">'+esc(c[1])+'</span>');
+    h += '</div>';
+  }
+  return h + '</div></div>';
+}
+
+function dayHTML(d){
+  const clashes = d.blocks.filter(b => b.type === "clash").length;
+  const n = d.blocks.reduce((a,b) => a + b.items.length, 0);
+  let h = '<section class="day" id="p-'+d.k+'" role="tabpanel">';
+  h += '<div class="dayhead"><h2>'+esc(d.full)+'</h2><span class="cnt">'+n+' items</span>';
+  if(d.note) h += '<span class="note">'+esc(d.note)+'</span>';
+  h += '</div>';
+  if(d.stay) h += '<a class="stay" href="'+mapURL(d.stay.addr)+'" target="_blank" rel="noopener"><div><span class="k">Hotel</span><br><span class="v">'+esc(d.stay.name)+'</span></div><span class="arw">↗</span></a>';
+  h += '<div class="blocks">';
+  d.blocks.forEach(b => {
+    if(b.type === "clash"){
+      h += '<div class="clash"><div class="clabel">'+esc(b.label)+'</div><div class="cwhy">'+esc(b.why)+'</div>';
+      b.items.forEach(it => h += evHTML(it));
+      h += '</div>';
+    } else {
+      b.items.forEach(it => h += evHTML(it).replace('class="ev"','class="ev solo"'));
+    }
+  });
+  return h + '</div></section>';
+}
+
+const tabs = document.getElementById('tabs'), panels = document.getElementById('panels');
+DAYS.forEach(d => {
+  const clash = d.blocks.some(b => b.type === "clash");
+  const btn = document.createElement('button');
+  btn.className = 'tab'; btn.type = 'button'; btn.role = 'tab';
+  btn.dataset.k = d.k; btn.setAttribute('aria-selected','false');
+  btn.innerHTML = esc(d.dow) + (clash ? '<span class="pip"></span>' : '') + '<span class="d">'+esc(d.dnum)+'</span>';
+  btn.addEventListener('click', () => select(d.k));
+  tabs.appendChild(btn);
+  panels.insertAdjacentHTML('beforeend', dayHTML(d));
+});
+
+function select(k){
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.k === k)));
+  document.querySelectorAll('.day').forEach(p => p.classList.toggle('on', p.id === 'p-'+k));
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+// Open on the live day if you're mid-trip, otherwise the first day. Mark what's on now.
+(function(){
+  const now = new Date();
+  let target = DAYS[0].k, marked = false;
+  for(const d of DAYS){
+    const last = d.blocks[d.blocks.length-1].items;
+    if(now < new Date(last[last.length-1].e)){ target = d.k; break; }
+  }
+  select(target);
+  document.querySelectorAll('.ev').forEach(el => {
+    if(!marked && now >= new Date(el.dataset.s) && now < new Date(el.dataset.e)){
+      el.classList.add('now'); marked = true;
+    }
+  });
+})();
+</script>
+</body>
+</html>
