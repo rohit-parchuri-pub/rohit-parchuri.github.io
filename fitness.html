@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14201c">
+<title>Core Circuit — Beginner Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3f1ea;
+  --paper-2:#eae6da;
+  --ink:#1b201c;
+  --moss:#14201c;
+  --moss-mid:#5a6b60;
+  --hair:#d7d2c2;
+  --lime:#5c7a3d;
+  --lime-bg:#e4ead7;
+  --rust:#a8502f;
+  --disp:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 0 72px}
+a{color:inherit}
+
+/* ---------- masthead ---------- */
+.mast{background:var(--moss);color:var(--paper);padding:30px 22px 24px}
+.eyebrow{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:#9db79f;margin:0 0 12px
+}
+.mast h1{
+  font-family:var(--disp);font-weight:800;font-size:36px;line-height:.98;
+  letter-spacing:-.02em;margin:0 0 10px;text-transform:uppercase
+}
+.mast h1 em{font-style:normal;color:#a9c9a3}
+.mast .sub{font-size:14px;color:#c3d2c4;margin:0;max-width:46ch}
+.mast .sub b{color:var(--paper);font-weight:600}
+
+/* ---------- science callout ---------- */
+.callout{
+  margin:20px 22px 0;padding:16px 18px;background:var(--lime-bg);
+  border-left:3px solid var(--lime);border-radius:0 8px 8px 0;font-size:14px;
+}
+.callout p{margin:0 0 10px}
+.callout p:last-child{margin-bottom:0}
+.callout b{font-weight:700}
+.callout .cite{font-size:12px;color:var(--moss-mid);font-style:italic}
+
+/* ---------- section headers ---------- */
+.section{padding:34px 22px 4px}
+.section h2{
+  font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:-.01em;
+  margin:0 0 4px;color:var(--moss)
+}
+.section .lede{font-size:13.5px;color:var(--moss-mid);margin:0 0 18px}
+
+/* ---------- exercise cards ---------- */
+.ex{
+  border:1px solid var(--hair);border-radius:10px;padding:18px 18px 16px;
+  margin-bottom:14px;background:#fdfcf8;
+}
+.ex-head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.ex-num{
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--paper);
+  background:var(--moss);border-radius:50%;width:22px;height:22px;
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0
+}
+.ex-head h3{font-family:var(--disp);font-weight:700;font-size:17px;margin:0;letter-spacing:-.005em}
+.ex-reps{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--lime);
+  letter-spacing:.02em;margin-left:auto
+}
+.ex-why{font-size:13px;color:var(--moss-mid);font-style:italic;margin:0 0 10px}
+.ex ul{margin:0 0 10px;padding-left:20px}
+.ex li{margin-bottom:5px;font-size:14px}
+.ex li:last-child{margin-bottom:0}
+.ex-cue{
+  font-size:13px;background:var(--lime-bg);border-radius:6px;padding:9px 12px;
+  margin-top:10px;color:#33421f
+}
+.ex-cue b{font-weight:700}
+.ex-mod{font-size:12.5px;color:var(--moss-mid);margin-top:8px}
+.ex-video{
+  display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+  font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.04em;
+  color:var(--moss);text-decoration:none;border-bottom:1px solid var(--moss);
+  padding-bottom:1px
+}
+.ex-video::before{content:"▶";font-size:9px}
+
+/* ---------- video list ---------- */
+.vidlist{border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:#fdfcf8}
+.vidlist a{
+  display:block;padding:14px 18px;text-decoration:none;border-bottom:1px solid var(--hair);
+}
+.vidlist a:last-child{border-bottom:0}
+.vidlist .vt{font-family:var(--disp);font-weight:700;font-size:14.5px;margin-bottom:3px}
+.vidlist .vd{font-size:12.5px;color:var(--moss-mid)}
+
+/* ---------- weekly table ---------- */
+table.week{width:100%;border-collapse:collapse;margin:4px 0 18px;font-size:14px}
+table.week th{
+  text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--moss-mid);padding:8px 10px;border-bottom:2px solid var(--moss)
+}
+table.week td{padding:10px 10px;border-bottom:1px solid var(--hair)}
+table.week tr:last-child td{border-bottom:0}
+table.week td:first-child{font-weight:700;font-family:var(--disp);width:70px}
+
+/* ---------- levers ---------- */
+.levers{list-style:none;margin:0;padding:0}
+.levers li{
+  display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--hair);
+}
+.levers li:first-child{border-top:0}
+.lever-num{
+  font-family:var(--disp);font-weight:800;font-size:22px;color:var(--lime);
+  flex-shrink:0;width:28px
+}
+.lever-body b{font-weight:700}
+.lever-body{font-size:14px}
+
+.protein{
+  margin-top:6px;padding:12px 14px;background:var(--paper-2);border-radius:8px;font-size:13.5px;
+}
+
+/* ---------- footer ---------- */
+.foot{
+  padding:26px 22px 10px;border-top:1px solid var(--hair);margin-top:20px;
+  font-size:12.5px;color:var(--moss-mid);line-height:1.6
+}
+.foot b{color:var(--ink);font-weight:600}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Beginner guide · Core &amp; body composition</p>
+    <h1>The Core<br>Circuit</h1>
+    <p class="sub">A 15-minute, <b>3x/week</b> routine — plus the calorie, strength and sleep math that actually determines whether it shows.</p>
+  </header>
+
+  <div class="callout">
+    <p><b>Fat loss doesn't happen locally.</b> When you exercise, your body releases fatty acids from stores all over — not just the area you're working. A randomised 12-week trial found no extra belly-fat reduction in people who added abdominal training to a diet change compared to diet alone. A 2013 study had participants do high-rep leg presses with only one leg; the trained leg didn't lose more fat than the untrained one.</p>
+    <p>So: core exercises build the muscle underneath. Overall calorie balance, strength training, and sleep determine whether you can see it. You need both — here's how to do both.</p>
+  </div>
+
+  <section class="section">
+    <h2>The core circuit</h2>
+    <p class="lede">3x per week, ~15 min. Do these one after the other as a circuit, 45 seconds rest at the end, then repeat for 3 rounds.</p>
+
+    <div class="ex">
+      <div class="ex-head">
+        <span class="ex-num">1</span>
+        <h3>Dead bug</h3>
+        <span class="ex-reps">8 reps / side</span>
+      </div>
+      <p class="ex-why">The single best starting point — it teaches you to brace without wrecking your lower back.</p>
+      <ul>
+        <li>Lie on your back, arms straight up toward the ceiling, knees bent 90° over your hips (tabletop)</li>
+        <li>Press your lower back flat into the floor — imagine flattening a sheet of paper under your spine. Hold this the entire time</li>
+        <li>Slowly lower your right arm overhead and extend your left leg out, stopping a few inches off the floor</li>
+        <li>Pause, return to start, switch sides</li>
+      </ul>
+      <div class="ex-cue"><b>Cue:</b> slow and controlled, no momentum. The moment your lower back arches off the floor, you've gone too far — shorten the range.</div>
+      <a class="ex-video" href="https://www.youtube.com/watch?v=bxn9FBrt4-A" target="_blank" rel="noopener">NASM — How to do a Dead Bug</a>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">
+        <span class="ex-num">2</span>
+        <h3>Front plank</h3>
+        <span class="ex-reps">30–45 sec</span>
+      </div>
+      <ul>
+        <li>Forearms on the floor, elbows directly under your shoulders, feet hip-width</li>
+        <li>Straight line from head to heels — no sagging hips, no piked butt</li>
+        <li>Squeeze your glutes and tuck your pelvis slightly under</li>
+        <li>Gaze slightly in front of your hands, not down at your feet</li>
+      </ul>
+      <div class="ex-cue"><b>Cue:</b> the glute squeeze + pelvic tuck is what turns a plank from a shoulder hold into a core exercise. Stop when your form breaks, not when the timer ends — a clean 30 seconds beats a sagging 90.</div>
+      <p class="ex-mod"><b>Modification:</b> drop to your knees.</p>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">
+        <span class="ex-num">3</span>
+        <h3>Reverse crunch</h3>
+        <span class="ex-reps">10–12 reps</span>
+      </div>
+      <p class="ex-why">Targets the lower abdominal region, which is harder to reach with standard crunches.</p>
+      <ul>
+        <li>Lie flat, knees bent, thighs perpendicular to the floor, shins parallel to it</li>
+        <li>Hands flat on the floor beside you for stability</li>
+        <li>Curl your pelvis toward your chest, lifting your hips off the floor — a small movement, maybe 3–4 inches</li>
+        <li>Pause at the top, then lower slowly with control</li>
+      </ul>
+      <div class="ex-cue"><b>Avoid:</b> swinging your legs and using momentum to throw your hips up. If you can't lift your hips without a swing, you're not ready for the range yet — just do the pelvic tilt portion.</div>
+      <a class="ex-video" href="https://www.youtube.com/watch?v=yH-oSzE5_g0" target="_blank" rel="noopener">Well+Good — How to do a Reverse Crunch</a>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">
+        <span class="ex-num">4</span>
+        <h3>Side plank</h3>
+        <span class="ex-reps">20–30 sec / side</span>
+      </div>
+      <ul>
+        <li>Lie on your side, elbow under your shoulder, feet stacked or staggered</li>
+        <li>Lift your hips so you form a straight line from head to feet</li>
+        <li>Don't let your top hip roll forward or your bottom hip sag</li>
+      </ul>
+      <p class="ex-mod"><b>Modification:</b> bottom knee bent on the floor, lifting from the knee instead of the feet.</p>
+    </div>
+
+    <div class="ex">
+      <div class="ex-head">
+        <span class="ex-num">5</span>
+        <h3>Glute bridge</h3>
+        <span class="ex-reps">12–15 reps</span>
+      </div>
+      <p class="ex-why">Not an ab exercise, but it balances the front-loaded work and fixes the anterior pelvic tilt that makes a stomach look less flat even at the same body fat.</p>
+      <ul>
+        <li>On your back, knees bent, feet flat and hip-width, heels close to your glutes</li>
+        <li>Drive through your heels, squeeze your glutes, lift your hips until your body forms a straight line from knees to shoulders</li>
+        <li>Don't arch your lower back at the top — the movement comes from the glutes, not the spine</li>
+        <li>Hold 2 seconds at the top, lower slowly</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Full follow-along videos</h2>
+    <p class="lede">If you'd rather just press play than count reps yourself.</p>
+    <div class="vidlist">
+      <a href="https://www.youtube.com/watch?v=b_TTLmmQmXU" target="_blank" rel="noopener">
+        <div class="vt">Dr. Jared Beckstrand — Core Workout for Beginners, 10 min</div>
+        <div class="vd">No equipment, hits abs, obliques, lower back and hips</div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=qfoW2PKugyk" target="_blank" rel="noopener">
+        <div class="vt">Pelvic Exercises with Physio Michelle — Easy Core Exercises for Beginners</div>
+        <div class="vd">Heaviest emphasis on technique and mistakes to avoid — good if you have any back history</div>
+      </a>
+      <a href="https://www.nourishmovelove.com/beginner-core-workout/" target="_blank" rel="noopener">
+        <div class="vt">Nourish Move Love — 10-Min Beginner Core</div>
+        <div class="vd">40 seconds work / 20 seconds rest intervals, follow-along</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>The part that actually flattens it</h2>
+    <p class="lede">Core work alone won't do it. Structure a week like this:</p>
+    <table class="week">
+      <thead><tr><th>Day</th><th>Focus</th></tr></thead>
+      <tbody>
+        <tr><td>Mon</td><td>Full-body strength + core circuit</td></tr>
+        <tr><td>Tue</td><td>30–45 min brisk walk or easy cardio</td></tr>
+        <tr><td>Wed</td><td>Rest or walk</td></tr>
+        <tr><td>Thu</td><td>Full-body strength + core circuit</td></tr>
+        <tr><td>Fri</td><td>Cardio (intervals if you like them)</td></tr>
+        <tr><td>Sat</td><td>Full-body strength + core circuit</td></tr>
+        <tr><td>Sun</td><td>Rest</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lede" style="margin-bottom:6px">The three levers that matter more than any ab exercise:</p>
+    <ul class="levers">
+      <li>
+        <span class="lever-num">1</span>
+        <div class="lever-body"><b>A modest calorie deficit</b> — roughly 300–500 below maintenance. Aggressive deficits cost you muscle, which is the thing giving you shape.</div>
+      </li>
+      <li>
+        <span class="lever-num">2</span>
+        <div class="lever-body"><b>Resistance training for your whole body</b> — squats, hinges, presses, rows, carries. This determines the <i>ratio</i> of fat to muscle in the weight you lose, which is what changes how you look.</div>
+      </li>
+      <li>
+        <span class="lever-num">3</span>
+        <div class="lever-body"><b>Sleep and stress</b> — 7–9 hours. Elevated cortisol and disrupted hunger hormones from poor sleep work directly against you, and this is the lever most people with demanding jobs are quietly failing.
+          <div class="protein">Protein at roughly <b>0.7–1g per pound of bodyweight</b> makes the deficit far easier to sustain and protects muscle.</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <p class="foot">
+    Expect this to take months, not weeks. Where you lose fat first is largely down to genetics and sex — men typically lose from the trunk earlier than women, and the abdomen is often the last place it comes off regardless.
+    <br><br>
+    <b>One caveat:</b> if you've got any history of lower back issues or a recent abdominal surgery, run the plank and crunch work past a physio first — dead bugs and bird dogs are the safe substitutions in the meantime.
+  </p>
+
+</div>
+</body>
+</html>
