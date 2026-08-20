@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14201c">
+<meta name="robots" content="noindex, nofollow">
+<title>Isha School Newsletters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3f1ea;
+  --paper-2:#eae6da;
+  --ink:#1b201c;
+  --moss:#14201c;
+  --moss-mid:#5a6b60;
+  --hair:#d7d2c2;
+  --lime:#5c7a3d;
+  --lime-bg:#e4ead7;
+  --disp:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+
+.mast{background:var(--moss);color:var(--paper);padding:26px 22px 20px;position:sticky;top:0;z-index:5}
+.eyebrow{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:#9db79f;margin:0 0 10px
+}
+.mast h1{
+  font-family:var(--disp);font-weight:800;font-size:26px;line-height:1;
+  letter-spacing:-.02em;margin:0;text-transform:uppercase
+}
+.mast .row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+.mast .meta{font-family:var(--mono);font-size:11.5px;color:#c3d2c4}
+.mast .meta b{color:var(--paper);font-weight:600}
+
+.status{
+  font-family:var(--mono);font-size:12px;color:var(--moss-mid);text-align:center;
+  padding:14px 22px;
+}
+.status.err{color:#a8502f}
+
+.viewer{max-width:1100px;margin:0 auto;padding:22px 16px 80px;display:flex;flex-direction:column;gap:18px}
+.spread{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+}
+.pagebox{
+  background:#fff;box-shadow:0 1px 3px rgba(20,32,28,.15),0 0 0 1px var(--hair);
+  border-radius:2px;overflow:hidden;flex:0 0 auto;position:relative;
+}
+.pagebox canvas{display:block;width:100%;height:100%}
+.pagebox .num{
+  position:absolute;bottom:6px;right:8px;font-family:var(--mono);font-size:10px;
+  color:var(--moss-mid);background:rgba(255,255,255,.85);padding:1px 6px;border-radius:8px;
+}
+
+.jumpbar{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  background:var(--moss);color:var(--paper);border-radius:24px;
+  padding:8px 8px;display:flex;align-items:center;gap:6px;box-shadow:0 6px 20px rgba(0,0,0,.25);
+  font-family:var(--mono);font-size:12px;z-index:6;
+}
+.jumpbar button{
+  background:transparent;border:0;color:var(--paper);font-family:var(--mono);
+  font-size:13px;padding:6px 10px;border-radius:16px;cursor:pointer;
+}
+.jumpbar button:hover{background:rgba(255,255,255,.12)}
+.jumpbar button:disabled{opacity:.35;cursor:default}
+.jumpbar input{
+  width:52px;text-align:center;font-family:var(--mono);font-size:12px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+  color:var(--paper);border-radius:14px;padding:6px 4px;
+}
+.jumpbar .of{color:#9db79f}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div class="row">
+    <div>
+      <p class="eyebrow">Not indexed · direct link only</p>
+      <h1>Isha School Newsletters</h1>
+    </div>
+    <div class="meta">School year <b>2025–26</b> · <span id="pagecount">…</span></div>
+  </div>
+</div>
+
+<p class="status" id="status">Loading newsletter…</p>
+
+<div class="viewer" id="viewer"></div>
+
+<div class="jumpbar" id="jumpbar" style="display:none">
+  <button id="prevBtn" aria-label="Previous spread">‹</button>
+  <input id="pageInput" type="number" min="1" value="1">
+  <span class="of">/ <span id="pageTotal">–</span></span>
+  <button id="goBtn">Go</button>
+  <button id="nextBtn" aria-label="Next spread">›</button>
+</div>
+
+<script type="module">
+import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs";
+
+const PDF_URL = "isha-school-newsletter-2025-26.pdf";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.mjs";
+
+const statusEl = document.getElementById("status");
+const viewerEl = document.getElementById("viewer");
+const jumpbar = document.getElementById("jumpbar");
+const pageInput = document.getElementById("pageInput");
+const pageTotal = document.getElementById("pageTotal");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const goBtn = document.getElementById("goBtn");
+const pagecountEl = document.getElementById("pagecount");
+
+let pdfDoc = null;
+let numPages = 0;
+let baseViewportW = 0, baseViewportH = 0;
+let spreadEls = [];
+const renderState = new Map();
+
+const RENDER_SCALE = 1.4;
+
+function buildLayout() {
+  const containerW = (viewerEl.clientWidth || Math.min(window.innerWidth, 1100)) - 32;
+  const pageW = Math.min((containerW - 10) / 2, 560);
+  const aspect = baseViewportH / baseViewportW;
+  const pageH = pageW * aspect;
+
+  viewerEl.innerHTML = "";
+  spreadEls = [];
+
+  for (let start = 1; start <= numPages; start += 2) {
+    const spread = document.createElement("div");
+    spread.className = "spread";
+    const pages = [start, start + 1 <= numPages ? start + 1 : null];
+    const boxes = pages.map(p => {
+      if (!p) return null;
+      const box = document.createElement("div");
+      box.className = "pagebox";
+      box.style.width = pageW + "px";
+      box.style.height = pageH + "px";
+      box.dataset.page = p;
+      const num = document.createElement("span");
+      num.className = "num";
+      num.textContent = p;
+      box.appendChild(num);
+      spread.appendChild(box);
+      return box;
+    }).filter(Boolean);
+    spread.dataset.start = start;
+    spread.dataset.boxes = "";
+    spread._boxes = boxes;
+    viewerEl.appendChild(spread);
+    spreadEls.push(spread);
+  }
+}
+
+const MAX_CONCURRENT_RENDERS = 3;
+const wanted = new Set();
+const renderQueue = [];
+let activeRenders = 0;
+
+function requestRender(box, pageNum) {
+  if (wanted.has(pageNum) || renderState.get(pageNum) === "done") return;
+  wanted.add(pageNum);
+  renderState.set(pageNum, "queued");
+  renderQueue.push({ box, pageNum });
+  pumpQueue();
+}
+
+function pumpQueue() {
+  while (activeRenders < MAX_CONCURRENT_RENDERS && renderQueue.length) {
+    const item = renderQueue.shift();
+    if (!wanted.has(item.pageNum)) continue;
+    activeRenders++;
+    renderPageInto(item.box, item.pageNum).finally(() => {
+      activeRenders--;
+      pumpQueue();
+    });
+  }
+}
+
+async function renderPageInto(box, pageNum) {
+  renderState.set(pageNum, "rendering");
+  try {
+    const page = await pdfDoc.getPage(pageNum);
+    const viewport = page.getViewport({ scale: 1 });
+    const targetW = box.clientWidth * RENDER_SCALE;
+    const scale = targetW / viewport.width;
+    const scaledViewport = page.getViewport({ scale });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = scaledViewport.width;
+    canvas.height = scaledViewport.height;
+    const ctx = canvas.getContext("2d");
+    await page.render({ canvasContext: ctx, viewport: scaledViewport }).promise;
+
+    if (box.isConnected && wanted.has(pageNum)) {
+      const existingCanvas = box.querySelector("canvas");
+      if (existingCanvas) existingCanvas.remove();
+      box.insertBefore(canvas, box.firstChild);
+      renderState.set(pageNum, "done");
+    } else {
+      renderState.delete(pageNum);
+    }
+  } catch (e) {
+    renderState.delete(pageNum);
+    console.error("Render failed for page", pageNum, e);
+  }
+}
+
+function clearBox(box) {
+  const pageNum = Number(box.dataset.page);
+  wanted.delete(pageNum);
+  const c = box.querySelector("canvas");
+  if (c) c.remove();
+  renderState.delete(pageNum);
+}
+
+const visibleStarts = new Set();
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const spread = entry.target;
+    const boxes = spread._boxes || [];
+    const start = Number(spread.dataset.start);
+    if (entry.isIntersecting) {
+      boxes.forEach(box => requestRender(box, Number(box.dataset.page)));
+      visibleStarts.add(start);
+    } else {
+      boxes.forEach(box => clearBox(box));
+      visibleStarts.delete(start);
+    }
+  });
+  if (visibleStarts.size) {
+    pageInput.value = Math.min(...visibleStarts);
+  }
+}, { root: null, rootMargin: "800px 0px 800px 0px" });
+
+function jumpToPage(n) {
+  n = Math.max(1, Math.min(numPages, n));
+  const spreadIndex = Math.floor((n - 1) / 2);
+  const target = spreadEls[spreadIndex];
+  if (target) target.scrollIntoView({ block: "start" });
+}
+
+prevBtn.addEventListener("click", () => jumpToPage(Number(pageInput.value) - 2));
+nextBtn.addEventListener("click", () => jumpToPage(Number(pageInput.value) + 2));
+goBtn.addEventListener("click", () => jumpToPage(Number(pageInput.value)));
+pageInput.addEventListener("keydown", e => { if (e.key === "Enter") jumpToPage(Number(pageInput.value)); });
+
+let resizeTimer = null;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    spreadEls.forEach(s => io.unobserve(s));
+    spreadEls.forEach(s => (s._boxes || []).forEach(clearBox));
+    buildLayout();
+    setTimeout(() => {
+      spreadEls.forEach(s => io.observe(s));
+    }, 0);
+  }, 250);
+});
+
+async function init() {
+  try {
+    const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+    pdfDoc = pdf;
+    numPages = pdf.numPages;
+
+    const firstPage = await pdf.getPage(1);
+    const vp = firstPage.getViewport({ scale: 1 });
+    baseViewportW = vp.width;
+    baseViewportH = vp.height;
+
+    pageTotal.textContent = numPages;
+    pagecountEl.innerHTML = "<b>" + numPages + "</b> pages";
+    statusEl.style.display = "none";
+    jumpbar.style.display = "flex";
+    pageInput.max = numPages;
+
+    buildLayout();
+    setTimeout(() => {
+      spreadEls.forEach(s => io.observe(s));
+    }, 0);
+  } catch (e) {
+    console.error(e);
+    statusEl.textContent = "Couldn't load the newsletter PDF (" + e.message + ").";
+    statusEl.classList.add("err");
+  }
+}
+
+init();
+</script>
+</body>
+</html>
